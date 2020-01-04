@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Hank Quinlan, Horrible Cop, Launches Site"
+title: "RMSC, Launches Site"
 date: 2020-01-04
 ---
 
