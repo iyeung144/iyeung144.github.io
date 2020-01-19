@@ -1,0 +1,16 @@
+base
+corrplot
+ggplot2
+ggthemes
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+zoo
+factoextra
+FactoMineR
+knitr

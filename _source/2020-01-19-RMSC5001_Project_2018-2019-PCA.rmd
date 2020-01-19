@@ -15,8 +15,17 @@ categories:
   - Jekyll
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache=FALSE}
 knitr::opts_chunk$set(echo = TRUE, dpi = 300, fig.width = 7)
+base_dir <- "C:/Users/USER/OneDrive - The Chinese University of Hong Kong/Github-Pages/iyeung144.github.io/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # customize to heart's content, I 'spose.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      cache.path = '../cache/',
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
 # knitr::opts_chunk$set(echo = FALSE, dpi = 300, fig.width = 7)
 ```
 
