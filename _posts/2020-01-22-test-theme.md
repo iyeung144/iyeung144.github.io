@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "test"
-date: "2020-01-22"
+date: 2020-01-22
 ---
 This is a test theme post. 
 1A good name is more desirable than great riches;
