@@ -4,7 +4,7 @@ author: CHING, Pui Chi 1155102106 <br/> MA, Cheuk Fung 1155106595 <br/> YEUNG, K
 date: "`r Sys.Date()`"
 output:
   md_document:
-    variant: gfm
+    variant: markdown_github
     preserve_yaml: TRUE
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
@@ -13,6 +13,7 @@ layout: post
 categories:
   - R Markdown
   - Jekyll
+tags: test PAC 
 ---
 
 ```{r setup, include=FALSE, cache=FALSE}
