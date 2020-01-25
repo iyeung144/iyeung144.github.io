@@ -10,9 +10,6 @@ knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
 excerpt: "testing R markdown blog"
 layout: post
-categories:
-  - R Markdown
-  - Jekyll
 tags: test PCA
 ---
 
@@ -90,7 +87,7 @@ The EPL has 20 clubs and each club will play the others twice in the season, onc
 
 Game play statistics are independent variables to explain the game, i.e. variance of the game, while the output are game results. Only variables from 11 to 23 are used for principal component analysis.
 Besides, the analysis is based on HomeTeam data. AwayTeam can be done in the same way.
-```{r read data}
+```{r}
 set.seed(123456)
 d <- read.csv("season-1718_csv.csv", stringsAsFactors = FALSE)
 d1 <- d %>%
@@ -127,7 +124,7 @@ Some facts can be concluded from the boxplot:
 2. Fouls are comparable between Home Team and Away Team.
 
 ### Correlation plot
-```{r correlation plot}
+```{r}
 r <- cor(league.df)
 corrplot.mixed(r, lower = "square", upper = "number", order = "FPC")
 ```

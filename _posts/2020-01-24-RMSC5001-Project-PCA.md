@@ -1,7 +1,7 @@
 ---
 title: "RMSC5001 Project 2018-2019 - Principal Component Analysis"
 author: CHING, Pui Chi 1155102106 <br/> MA, Cheuk Fung 1155106595 <br/> YEUNG, Ka Ming 1155104060
-date: "2020-01-24"
+date: "2020-01-25"
 output:
   md_document:
     variant: markdown_github
@@ -10,9 +10,6 @@ knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
 excerpt: "testing R markdown blog"
 layout: post
-categories:
-  - R Markdown
-  - Jekyll
 tags: test PCA
 ---
 
@@ -76,7 +73,7 @@ Set Up
 Library
 -------
 
-``` r
+```r
 library(corrplot)
 library(ggplot2)
 library(ggthemes)
@@ -136,7 +133,7 @@ variables from 11 to 23 are used for principal component analysis.
 Besides, the analysis is based on HomeTeam data. AwayTeam can be done in
 the same way.
 
-``` r
+```r
 set.seed(123456)
 d <- read.csv("season-1718_csv.csv", stringsAsFactors = FALSE)
 d1 <- d %>%
@@ -181,7 +178,7 @@ league.df <- column_to_rownames(d1, var = "HomeTeam")
     ## West Brom      210 229  65  68 230 172 101  87 35 30  0  0
     ## West Ham       211 226  64  75 193 237  93  78 34 27  0  1
 
-``` r
+```r
 summary(league.df)
 ```
 
@@ -217,7 +214,7 @@ ggplot(stack(league.df), aes(x = ind, y = values)) +
   )
 ```
 
-![](/images/read%20data-1.png)<!-- -->
+![](/images/unnamed-chunk-2-1.png)
 
 Some facts can be concluded from the boxplot:
 
@@ -227,12 +224,12 @@ Some facts can be concluded from the boxplot:
 
 ### Correlation plot
 
-``` r
+```r
 r <- cor(league.df)
 corrplot.mixed(r, lower = "square", upper = "number", order = "FPC")
 ```
 
-![](/images/correlation%20plot-1.png)<!-- -->
+![](/images/unnamed-chunk-3-1.png)
 
 Some facts can be concluded from the correlation plot:
 
