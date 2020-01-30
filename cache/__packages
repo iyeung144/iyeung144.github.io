@@ -14,3 +14,9 @@ zoo
 factoextra
 FactoMineR
 knitr
+xts
+TTR
+quantmod
+lubridate
+PerformanceAnalytics
+tidyquant
