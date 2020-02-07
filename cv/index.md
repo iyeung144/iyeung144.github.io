@@ -1,18 +1,20 @@
 ---
 layout: post
 title: "About"
-date: 2020-01-04
+date: 2020-02-01
 author: YEUNG Ka Ming, CFA
 ---
 
 <dl>
 <dt>YEUNG Ka Ming, CFA</dt>
 <dt>Current title</dt>
-<dd>Assistant Vice President, Risk Control</dd>
+<dd>Vice President of Risk Control</dd>
 <dt>Current location</dt>
 <dd>Hong Kong</dd>
 <dt>Email</dt>
 <dd>ivan.kmyeung@outlook.com</dd>
+<dt>LinkedIn</dt>
+<dd>https://www.linkedin.com/in/ivankmyeung/</dd>
 </dl>
 
 # EXPERIENCE
@@ -20,7 +22,7 @@ author: YEUNG Ka Ming, CFA
 
 - November 2017 – Present
 
-  - BOCI-Prudential Asset Management Limited – Assistant Vice President (Risk Control)
+  - BOCI-Prudential Asset Management Limited – Vice President (Risk Control)
 
     - Risk control focuses on investment management. My team is responsible for below tasks:
 
