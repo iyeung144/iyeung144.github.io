@@ -1,0 +1,81 @@
+---
+title: "COVID-19 Cumulative Deaths"
+author: "Yeung Ka Ming, CFA"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "COVID-19"
+layout: post
+tags: COVID19
+---
+  
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 10)
+```
+
+# Summary
+COVID-19 Cumulative Deaths for selected countries
+
+## R Libraries
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+## Preparation of data
+Download data from WHO website
+```{r Setup environment, include=FALSE, cache=FALSE}
+setwd("D:/OneDrive - The Chinese University of Hong Kong/GitHub/_source")
+base_dir <- "D:/OneDrive - The Chinese University of Hong Kong/GitHub/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # customize to heart's content, I 'spose.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
+```
+
+```{r import data}
+covid.data <- read.csv("WHO-COVID-19-global-data.csv", header = TRUE, sep = ",", encoding ="UTF-8")
+```
+
+## Tidy data
+```{r rename date column}
+
+# rename date column header
+colnames(covid.data)[1] <- "Date_reported"
+
+# change data frame to tibble and specify date column as Date format
+covid.data.tbl <- as_tibble(covid.data) %>% 
+  mutate(Date_reported = as.Date(Date_reported))
+```
+
+```{r select data and turn to long format}
+# pick Singapore and China and make tibble "long"
+covid.data.tbl1 <- covid.data.tbl %>% 
+  filter(Country == "Singapore" | Country == "China" ) %>% 
+  pivot_longer("Cumulative_deaths", 
+               names_to = "Cumulative_deaths_key", 
+               values_to = "Cumulative_deaths_value") %>% 
+  filter(Cumulative_deaths_value > 0)
+```
+
+## Plot graph
+```{r plot}
+# plot graph
+p <- ggplot(covid.data.tbl1, aes(x = Date_reported, 
+                                 y = Cumulative_deaths_value, color=Country))
+p + geom_line() +
+  ggtitle("COVID-19 Cumulative Deaths") +
+  ylab("Cumulative Deaths") +
+  xlab("Date")
+```
