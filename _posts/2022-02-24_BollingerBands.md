@@ -1,7 +1,7 @@
 ---
 author: Yeung Ka Ming, CFA
 date: 2022-02-24
-excerpt: Technical Analysis
+excerpt: TechnicalAnalysis
 knit: "(function(inputFile, encoding) { rmarkdown::render(inputFile,
   encoding = encoding, output_dir = “../\\_posts”) })"
 layout: post

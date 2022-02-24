@@ -8,11 +8,10 @@ output:
     preserve_yaml: TRUE
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
-excerpt: "Technical Analysis"
+excerpt: "TechnicalAnalysis"
 layout: post
 tags: BollingerBands
 ---
-
 ```{r set-options, echo=FALSE, cache=FALSE}
 options(width = 100)
 ```
