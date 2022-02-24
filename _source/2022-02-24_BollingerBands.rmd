@@ -4,8 +4,8 @@ author: "Yeung Ka Ming, CFA"
 date: "`r Sys.Date()`"
 output:
   md_document:
-  variant: gfm
-preserve_yaml: TRUE
+    variant: gfm
+    preserve_yaml: TRUE
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
 excerpt: "Technical Analysis"
