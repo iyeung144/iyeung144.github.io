@@ -1,0 +1,90 @@
+---
+title: "Fitting Data: Hong Kong Air Pollutants"
+author: "Yeung Ka Ming, CFA"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "Fitting Air Pollutants Data"
+layout: post
+tags: fittingData
+---
+  
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 10)
+```
+
+# Summary
+Fitting Data: Hong Kong Air Pollutants
+
+## R Libraries
+```{r}
+library(fitdistrplus)
+```
+
+## Preparation of data
+```{r Setup environment, include=FALSE, cache=FALSE}
+setwd("D:/OneDrive - The Chinese University of Hong Kong/GitHub/_source")
+base_dir <- "D:/OneDrive - The Chinese University of Hong Kong/GitHub/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # customize to heart's content, I 'spose.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
+```
+
+```{r import data}
+airpollutants <- read.csv("airpollutants.csv", header = TRUE, sep = ",", encoding ="UTF-8")
+head(airpollutants)
+```
+
+fitdistrplus accepts vector only[^1] 
+```{r extract one air pollutant column}
+airdata <- as.numeric(airpollutants$NO2) # change to numeric but introduced NAs
+airdata <- c(na.omit(airdata)) # omit NAs and covert data to a vector. fitdistrplus accepts numeric vector only
+```
+
+## Plot data
+```{r plot histogram}
+plot(airdata,pch=20)
+plotdist(airdata, histo = TRUE, demp = FALSE)
+descdist(airdata,discrete = FALSE,boot = 500)
+```
+
+## Fitting data
+```{r fitting data}
+fit_w <- fitdist(airdata,"weibull")
+fit_g <- fitdist(airdata, "gamma")
+fit_ln <- fitdist(airdata, "lnorm")
+
+summary(fit_w)
+summary(fit_g)
+summary(fit_ln)
+```
+
+## Compare different fitting results
+```{r fitting results}
+par(mfrow=c(2,2))
+plot.legend<-c("Weibull","gamma", "lognormal")
+denscomp(list(fit_w,fit_g,fit_ln), legendtext=plot.legend)
+cdfcomp(list(fit_w,fit_g,fit_ln), legendtext = plot.legend)
+qqcomp(list(fit_w,fit_g,fit_ln), legendtext = plot.legend)
+ppcomp(list(fit_w,fit_g,fit_ln), legendtext = plot.legend)
+```
+
+## Goodness-of-fit test
+```{r goodnesss-of-fit}
+gofstat(list(fit_w,fit_g,fit_ln), fitnames = c("weibull","gamma","lnorm"))
+```
+
+## Reference
+[^1]: https://stackoverflow.com/questions/37091580/how-to-exclude-nas-fitdist-function
