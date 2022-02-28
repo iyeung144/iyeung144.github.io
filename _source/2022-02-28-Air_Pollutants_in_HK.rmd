@@ -1,0 +1,85 @@
+---
+title: "Plot Hong Kong Air Pollutants"
+author: "Yeung Ka Ming, CFA"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "Plot Air Pollutants Data"
+layout: post
+tags: TidyData
+---
+  
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 10)
+```
+
+# Summary
+Plot Hong Kong Air Pollutants
+
+## R Libraries
+```{r libraries}
+library(lubridate)
+library(ggplot2)
+library(tidyverse)
+```
+
+## Preparation of data
+```{r Setup environment, include=FALSE, cache=FALSE}
+setwd("D:/OneDrive - The Chinese University of Hong Kong/GitHub/_source")
+base_dir <- "D:/OneDrive - The Chinese University of Hong Kong/GitHub/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # customize to heart's content, I 'spose.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
+```
+
+```{r import data}
+airpollutants <- read.csv("airpollutants.csv", header = TRUE, sep = ",", encoding ="UTF-8")
+head(airpollutants)
+```
+
+```{r tidy data}
+airpollutants.tbl <- as_tibble(airpollutants)
+airpollutants.tbl <- airpollutants.tbl %>% 
+  mutate(NO2 = as.double(NO2)) %>% 
+  mutate(O3 = as.double(O3)) %>%
+  mutate(SO2 = as.double(SO2)) %>% 
+  mutate(CO = as.double(CO)) %>% 
+  mutate(PM2.5 = as.double(PM2.5))
+```
+
+This part is important for keeping the date and time data
+```{r covert RFC 2822 date format}
+prev <- Sys.getlocale("LC_TIME"); Sys.setlocale("LC_TIME", "C") # help from strptime in R Documentation
+airpollutants.tbl <- airpollutants.tbl %>% 
+  mutate(DateTime = as_datetime(DateTime, format="%a, %d %b %Y %H:%M:%S %z")) # as_datetime from package lubridate
+```
+
+## Plot data
+```{r distract air pollutants}
+airpollutants.long.tbl <- airpollutants.tbl %>% 
+  pivot_longer(cols = c(NO2, O3, SO2, CO, PM10, PM2.5), 
+               names_to = "pollutants", 
+               values_to = "level")
+
+p1 <- airpollutants.long.tbl %>% 
+  filter(StationName == "Central/Western") %>% 
+  ggplot(aes(x=DateTime, y=level, color=pollutants))
+p1 + geom_line()
+
+p2 <- airpollutants.long.tbl %>%
+  filter(pollutants != "CO") %>% 
+  ggplot(aes(x=DateTime, y=level, color=pollutants))
+p2 + geom_line(size = 1) + facet_wrap(. ~ StationName, ncol = 3)
+```
