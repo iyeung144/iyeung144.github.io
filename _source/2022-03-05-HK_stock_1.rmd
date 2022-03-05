@@ -1,0 +1,72 @@
+---
+title: "Hong Kong Stock 1"
+author: "Yeung Ka Ming, CFA"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "Stock Data"
+layout: post
+tags: data
+---
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 10)
+```
+
+# Summary
+Download HK Stock data
+
+## R Libraries
+```{r}
+library(quantmod)
+```
+
+## Preparation of data
+```{r Setup environment, include=FALSE, cache=FALSE}
+setwd("D:/OneDrive - The Chinese University of Hong Kong/GitHub/_source")
+base_dir <- "D:/OneDrive - The Chinese University of Hong Kong/GitHub/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # put image to this path.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
+```
+
+Direct download by getSymbols
+``` {r download stock data}
+tickers <- c("0005.HK","9988.HK")
+hkport <- new.env()
+getSymbols(tickers, 
+           env=hkport, 
+           src = "yahoo",
+           index.class = "POSIXct",
+           from = "2022-01-01")
+# auto.assign is FALSE, so an environment is used here. Unlike US stocks,
+# the tickers in HK stock market is by number, which cannot be the variable
+# name in R. Further fine tune in next step
+```
+
+## Rename column names
+```{r rename column names}
+HSBC<-hkport$`0005.HK`
+BABA<-hkport$`9988.HK`
+
+# substitute numeric ticker name to character name. It is inconvenient to handle
+# variable name starts with number.
+colnames(BABA) <- sub("9988.HK","BABA",colnames(hkport$`9988.HK`))
+head(hkport$`9988.HK`)
+head(BABA)
+
+colnames(HSBC) <- sub("0005.HK","HSBC",colnames(hkport$`0005.HK`))
+head(hkport$`0005.HK`)
+head(HSBC)
+```
