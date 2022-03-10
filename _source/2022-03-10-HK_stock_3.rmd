@@ -1,0 +1,130 @@
+---
+title: "Hong Kong Stock 3"
+author: "Yeung Ka Ming, CFA"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "Stock Data"
+layout: post
+tags: Porfolio
+---
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 150)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 15)
+```
+
+# Summary
+Compare return to market portfolio. The market portfolio
+for Hong Kong stock market is HSI Tracker ETF, 2800.HK
+
+## R Libraries
+```{r}
+library(quantmod)
+library(tidyverse)
+library(ggplot2)
+```
+
+## Preparation of data
+```{r Setup environment, include=FALSE, cache=FALSE}
+setwd("D:/OneDrive - The Chinese University of Hong Kong/GitHub/_source")
+base_dir <- "D:/OneDrive - The Chinese University of Hong Kong/GitHub/" # i.e. where the jekyll blog is on the hard drive.
+base_url <- "/" # keep as is
+fig_path <- "images/" # put image to this path.
+
+knitr::opts_knit$set(base.dir = base_dir, base.url = base_url)
+knitr::opts_chunk$set(fig.path = fig_path,
+                      message=FALSE, warning=FALSE,
+                      cache = TRUE) 
+```
+
+Direct download by getSymbols
+``` {r download stock data}
+tickers <- c("0005.HK","9988.HK", "2800.HK")
+hkport <- new.env()
+getSymbols(tickers, 
+           env=hkport, 
+           src = "yahoo",
+           index.class = "POSIXct",
+           from = "2022-01-01")
+# auto.assign is FALSE, so an environment is used here. 
+# Unlike US stocks, # the tickers in HK stock market is 
+# by number, which cannot be the variable
+# name in R. Further fine tune in next step.
+```
+
+## Rename column names
+```{r rename column names}
+HSBC<-hkport$`0005.HK`
+BABA<-hkport$`9988.HK`
+HKTR<-hkport$`2800.HK`
+
+# substitute numeric ticker name to character name. It is inconvenient to handle
+# variable name starts with number.
+colnames(BABA) <- sub("9988.HK","BABA",colnames(hkport$`9988.HK`))
+head(hkport$`9988.HK`)
+head(BABA)
+
+colnames(HSBC) <- sub("0005.HK","HSBC",colnames(hkport$`0005.HK`))
+head(hkport$`0005.HK`)
+head(HSBC)
+
+colnames(HKTR) <- sub("2800.HK","HKTR",colnames(hkport$`2800.HK`))
+head(hkport$`2800.HK`)
+head(HKTR)
+```
+
+## Prepare a dataframe with portfolio value and plot graph
+
+Prepare dataframe
+```{r prepare datefrmae}
+# Suppose $100,000 for investment on the first trading 
+# day of 2022.
+# Use around half of the amount for each stock (50/50)
+
+moneyseed <- 100000
+portion <- 0.5
+shares <- c(portion*moneyseed/HSBC$HSBC.Adjusted[[1]],
+            portion*moneyseed/BABA$BABA.Adjusted[[1]],
+            moneyseed/HKTR$HKTR.Adjusted[[1]])
+
+# need stock adjusted prices and number of shares to make a portfolio
+prices.tbl <- as_tibble(fortify(merge(HSBC, BABA, HKTR)))
+
+port.tbl <- prices.tbl %>% 
+  select(Index,HSBC.Adjusted,BABA.Adjusted,HKTR.Adjusted)
+port.tbl
+port.tbl <- port.tbl %>% 
+  mutate(port.value = shares[1]*HSBC.Adjusted + 
+           shares[2]*BABA.Adjusted) %>% 
+  mutate(mktport.value = shares[3]*HKTR.Adjusted)
+port.tbl
+```
+
+Plot graph
+```{r porfolio value plot}
+plot(x = port.tbl$Index, 
+     y = port.tbl$mktport.value, 
+     type="l", col="red", ylim = c(90000,120000))
+lines(x = port.tbl$Index, y = port.tbl$port.value, 
+      type="l", col="blue")
+legend(x = "topright", 
+       legend=c("Market Portfolio", "Portfolio"), 
+       lty=c(1,1),col=c("red", "blue"))
+
+port.long.tbl <- port.tbl %>%
+  pivot_longer(c(port.value,mktport.value), 
+               names_to = "Portfolio", 
+               values_to = "Value") %>% 
+  select(c(Index,Portfolio,Value))
+port.long.tbl
+p2 <- ggplot(port.long.tbl, 
+             aes(x=Index, y=Value, color=Portfolio))
+p2 + xlab("Date") + ylab("Portfolio Value") + geom_line()
+```
