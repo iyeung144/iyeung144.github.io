@@ -53,7 +53,7 @@ author: YEUNG Ka Ming, CFA
 * * *
 
 * CFA Institute - Chartered Financial Analyst (CFA) charterholder (Charter number 176760) 
-* China Foreign Exchange Trade System ?€? Bond Connect Trader Program Diploma
+* China Foreign Exchange Trade System - Bond Connect Trader Program Diploma
 
 # SKILLS
 * * *
