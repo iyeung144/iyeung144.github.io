@@ -16,25 +16,25 @@ author: YEUNG Ka Ming, CFA
 # EXPERIENCE
 * * *
 
-- December 2021 ?€? Current
+- December 2021 - Current
 
-  - An insurer in Hong Kong ?€? Risk Manager (Operational Risk)
+  - An insurer in Hong Kong - Risk Manager (Operational Risk)
   
-- August 2021 ?€? December 2021
+- August 2021 - December 2021
 
-  - Principal Asset Management Company (Asia) Limited ?€? Investment Governance and Control
+  - Principal Asset Management Company (Asia) Limited - Investment Governance and Control
   
     - Mutual funds and pensions risk management
 
-- November 2017 ?€? August 2021
+- November 2017 - August 2021
 
-  - BOCI-Prudential Asset Management Limited ?€? Risk Control
+  - BOCI-Prudential Asset Management Limited - Risk Control
 
     - Mutual funds and pensions investment compliance and risk management
  
-- March 2015 ?€? November 2017
+- March 2015 - November 2017
 
-  - BOCOM International Asset Management Ltd. ?€? Execution Trader
+  - BOCOM International Asset Management Ltd. - Execution Trader
 
 - June 2008 - February 2015
 
@@ -60,4 +60,3 @@ author: YEUNG Ka Ming, CFA
 
 * Bloomberg Terminal, Excel VBA, Python, R programming, Financial analysis, Risk modelling
 * English, Mandarin and Cantonese
-
